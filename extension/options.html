@@ -1,0 +1,312 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Minstrel settings</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    /* Sleek scrollbar (also what shows inside the in-page settings modal) */
+    ::-webkit-scrollbar { width: 8px; height: 8px; background: var(--bs-opt-bg); }
+    ::-webkit-scrollbar-track { background: var(--bs-opt-bg); }
+    ::-webkit-scrollbar-thumb {
+      background: color-mix(in srgb, var(--bs-opt-text-dim) 45%, transparent);
+      border-radius: 999px;
+      border: 2px solid transparent;
+      background-clip: padding-box;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: color-mix(in srgb, var(--bs-opt-text-dim) 70%, transparent);
+      border: 2px solid transparent;
+      background-clip: padding-box;
+    }
+    :root {
+      --bs-opt-bg: #f6f2e8;
+      --bs-opt-surface: #ffffff;
+      --bs-opt-border: rgba(33, 31, 40, .12);
+      --bs-opt-text: #211f28;
+      --bs-opt-text-dim: #6b6455;
+      --bs-opt-accent: #a97a34;
+      --bs-opt-accent-contrast: #1c1408;
+      --bs-opt-danger: #b5432a;
+      --bs-opt-ok: #3f7a4c;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bs-opt-bg: #15141b;
+        --bs-opt-surface: #1c1b24;
+        --bs-opt-border: rgba(255, 255, 255, .09);
+        --bs-opt-text: #ece7da;
+        --bs-opt-text-dim: #a39c8c;
+        --bs-opt-accent: #d3a662;
+        --bs-opt-accent-contrast: #1c1408;
+        --bs-opt-danger: #e08a6b;
+        --bs-opt-ok: #7bbf8c;
+      }
+    }
+    .bs-opt-body {
+      background: var(--bs-opt-bg);
+      color: var(--bs-opt-text);
+      font: 14px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      margin: 0;
+      padding: 32px 28px 14px;
+    }
+    .bs-opt {
+      max-width: 620px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+    .bs-opt-head h1 {
+      font: 600 1.7rem/1.2 ui-serif, Georgia, "Times New Roman", serif;
+      margin: 0 0 8px;
+      color: var(--bs-opt-text);
+    }
+    .bs-opt-head p { margin: 0; color: var(--bs-opt-text-dim); max-width: 60ch; }
+
+    .bs-opt-card {
+      background: var(--bs-opt-surface);
+      border: 1px solid var(--bs-opt-border);
+      border-radius: 14px;
+      padding: 22px 24px 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .bs-opt-card h2 {
+      font: 600 1rem/1.2 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      margin: 0;
+      color: var(--bs-opt-text);
+    }
+    .bs-opt-card-head { display: flex; flex-direction: column; gap: 4px; }
+
+    .bs-opt-field { display: flex; flex-direction: column; gap: 6px; }
+    .bs-opt-field label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--bs-opt-text);
+    }
+    .bs-opt-optional {
+      font-weight: 400;
+      color: var(--bs-opt-text-dim);
+      font-size: 12px;
+    }
+    .bs-opt input[type="text"],
+    .bs-opt input[type="password"],
+    .bs-opt input[type="number"],
+    .bs-opt select,
+    .bs-opt textarea {
+      appearance: none;
+      width: 100%;
+      padding: 9px 11px;
+      font: inherit;
+      font-size: 13.5px;
+      color: var(--bs-opt-text);
+      background: var(--bs-opt-bg);
+      border: 1px solid var(--bs-opt-border);
+      border-radius: 8px;
+    }
+    .bs-opt input::placeholder,
+    .bs-opt textarea::placeholder { color: var(--bs-opt-text-dim); opacity: .8; }
+    .bs-opt input:focus-visible,
+    .bs-opt textarea:focus-visible {
+      outline: none;
+      border-color: var(--bs-opt-accent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--bs-opt-accent) 22%, transparent);
+    }
+    .bs-opt textarea { min-height: 84px; resize: vertical; }
+    .bs-opt-hint { margin: 0; font-size: 12px; line-height: 1.5; color: var(--bs-opt-text-dim); }
+
+    .bs-opt-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 16px 18px;
+    }
+    .bs-opt-unit {
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--bs-opt-border);
+      border-radius: 8px;
+      background: var(--bs-opt-bg);
+      overflow: hidden;
+    }
+    .bs-opt-unit input {
+      border: none;
+      border-radius: 0;
+      background: transparent;
+    }
+    .bs-opt-unit input:focus-visible { box-shadow: none; outline: none; }
+    .bs-opt-unit:focus-within {
+      border-color: var(--bs-opt-accent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--bs-opt-accent) 22%, transparent);
+    }
+    .bs-opt-unit span {
+      padding: 0 11px;
+      font-size: 12px;
+      color: var(--bs-opt-text-dim);
+      border-left: 1px solid var(--bs-opt-border);
+      align-self: stretch;
+      display: flex;
+      align-items: center;
+    }
+
+    .bs-opt-swatch-row { display: flex; align-items: center; gap: 12px; }
+    .bs-opt input[type="color"] {
+      width: 40px;
+      height: 32px;
+      padding: 0;
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
+
+    .bs-opt-toggle {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+    .bs-opt-toggle input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+    .bs-opt-toggle-track {
+      flex: 0 0 auto;
+      width: 38px;
+      height: 22px;
+      border-radius: 999px;
+      background: var(--bs-opt-border);
+      position: relative;
+      transition: background-color .15s ease;
+    }
+    .bs-opt-toggle-track::after {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--bs-opt-surface);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
+      transition: transform .15s ease;
+    }
+    .bs-opt-toggle input:checked + .bs-opt-toggle-track { background: var(--bs-opt-accent); }
+    .bs-opt-toggle input:checked + .bs-opt-toggle-track::after { transform: translateX(16px); }
+    .bs-opt-toggle input:focus-visible + .bs-opt-toggle-track { outline: 2px solid var(--bs-opt-accent); outline-offset: 2px; }
+    .bs-opt-toggle-label { font-size: 13.5px; color: var(--bs-opt-text); }
+
+    .bs-opt-actions { display: flex; align-items: center; gap: 12px; justify-content: flex-end; }
+    .bs-opt-save {
+      appearance: none;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 9px;
+      background: var(--bs-opt-accent);
+      color: #fff;
+      font: inherit;
+      font-weight: 600;
+      font-size: 13.5px;
+      cursor: pointer;
+      transition: filter .15s ease;
+    }
+    .bs-opt-save:hover { filter: brightness(1.07); }
+    .bs-opt-save:focus-visible { outline: 2px solid var(--bs-opt-accent); outline-offset: 2px; }
+    .bs-opt-status { font-size: 13px; }
+  </style>
+</head>
+<body class="bs-opt-body">
+  <div class="bs-opt">
+    <header class="bs-opt-head">
+      <h1>Minstrel</h1>
+      <p>Without an LLM endpoint, a basic keyword classifier is used. Any
+         OpenAI-compatible API works: local Ollama, OpenRouter, OpenAI, etc.</p>
+    </header>
+
+    <section class="bs-opt-card">
+      <h2>Mood classification</h2>
+      <div class="bs-opt-field">
+        <label for="endpoint">LLM endpoint</label>
+        <input id="endpoint" type="text" placeholder="http://localhost:11434/v1">
+        <p class="bs-opt-hint">OpenAI-compatible base URL. Leave empty to use the keyword fallback.</p>
+      </div>
+      <div class="bs-opt-field">
+        <label for="apiKey">API key</label>
+        <input id="apiKey" type="password" placeholder="not needed for local Ollama">
+      </div>
+      <div class="bs-opt-field">
+        <label for="model">Model</label>
+        <input id="model" type="text" placeholder="llama3.2">
+      </div>
+      <div class="bs-opt-field">
+        <label for="synopsis">Current book synopsis <span class="bs-opt-optional">optional</span></label>
+        <textarea id="synopsis" placeholder="One paragraph about the book you're reading. Helps the LLM calibrate mood."></textarea>
+      </div>
+    </section>
+
+    <section class="bs-opt-card">
+      <div class="bs-opt-card-head">
+        <h2>Tuning</h2>
+        <p class="bs-opt-hint">Leave a field empty to use its default, shown as placeholder text. Changes apply live.</p>
+      </div>
+
+      <div class="bs-opt-grid">
+        <div class="bs-opt-field" title="Gentle blend between tracks. The LLM picks smooth for gradual scene changes, which is most of them.">
+          <label for="fadeSmoothMs">Smooth crossfade</label>
+          <div class="bs-opt-unit"><input id="fadeSmoothMs" type="number" min="100" placeholder="5000"><span>ms</span></div>
+        </div>
+        <div class="bs-opt-field" title="Fast cut-in. The LLM picks sharp only for sudden shifts: an ambush, an attack, a shock reveal.">
+          <label for="fadeSharpMs">Sharp crossfade</label>
+          <div class="bs-opt-unit"><input id="fadeSharpMs" type="number" min="100" placeholder="900"><span>ms</span></div>
+        </div>
+        <div class="bs-opt-field">
+          <label for="cooldownMs">Time between mood checks</label>
+          <div class="bs-opt-unit"><input id="cooldownMs" type="number" min="3000" placeholder="15000"><span>ms</span></div>
+        </div>
+        <div class="bs-opt-field">
+          <label for="settleMs">Scroll settle before checking</label>
+          <div class="bs-opt-unit"><input id="settleMs" type="number" min="200" placeholder="1500"><span>ms</span></div>
+        </div>
+        <div class="bs-opt-field">
+          <label for="maxChars">Max text sent per check</label>
+          <div class="bs-opt-unit"><input id="maxChars" type="number" min="300" placeholder="1800"><span>chars</span></div>
+        </div>
+        <div class="bs-opt-field">
+          <label for="hintOpacity">Reading-band guide opacity</label>
+          <div class="bs-opt-unit"><input id="hintOpacity" type="number" min="5" max="100" placeholder="45"><span>%</span></div>
+        </div>
+        <div class="bs-opt-field">
+          <label for="hintThickness">Guide line thickness</label>
+          <div class="bs-opt-unit"><input id="hintThickness" type="number" min="1" max="12" placeholder="1"><span>px</span></div>
+        </div>
+        <div class="bs-opt-field">
+          <label for="hintDim">Dim page outside the band</label>
+          <div class="bs-opt-unit"><input id="hintDim" type="number" min="0" max="90" placeholder="0"><span>%</span></div>
+        </div>
+      </div>
+
+      <div class="bs-opt-field">
+        <label for="hintColor">Reading-band guide color</label>
+        <div class="bs-opt-swatch-row">
+          <input id="hintColor" type="color" value="#7aaaaa">
+          <span class="bs-opt-hint">The dashed lines the widget's eye button draws over the page. Dim at 0% means only the lines show; raise it for a focus-mode darkening outside the band.</span>
+        </div>
+      </div>
+
+      <div class="bs-opt-field">
+        <label for="pauseOn">Auto-pause music</label>
+        <select id="pauseOn">
+          <option value="tab">When I switch tabs</option>
+          <option value="window">When the window loses focus too</option>
+          <option value="off">Never</option>
+        </select>
+        <p class="bs-opt-hint">Fades out over half a second and fades back in when you return.</p>
+      </div>
+    </section>
+
+    <div class="bs-opt-actions">
+      <button id="save" class="bs-opt-save" type="button">Save</button>
+      <span id="status" class="bs-opt-status"></span>
+    </div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+{
+  "battle": {
+    "file": "battle.mp3",
+    "title": "Battle Theme A",
+    "artist": "cynicmusic",
+    "license": "CC0",
+    "source": "https://opengameart.org/content/battle-theme-a",
+    "url": "https://opengameart.org/sites/default/files/battleThemeA.mp3"
+  },
+  "tension": {
+    "file": "tension.mp3",
+    "title": "Time Constraints",
+    "artist": "tapatilorenzo",
+    "license": "CC0",
+    "source": "https://opengameart.org/content/midi-2-tension-songs",
+    "url": "https://opengameart.org/sites/default/files/time_constraints.mp3"
+  },
+  "calm": {
+    "file": "calm.mp3",
+    "title": "Meditation Impromptu 01",
+    "artist": "Kevin MacLeod",
+    "license": "CC-BY 4.0",
+    "source": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100163",
+    "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Meditation%20Impromptu%2001.mp3"
+  },
+  "sad": {
+    "file": "sad.mp3",
+    "title": "Gymnopedie No. 3",
+    "artist": "Kevin MacLeod",
+    "license": "CC-BY 4.0",
+    "source": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100785",
+    "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Gymnopedie%20No%203.mp3"
+  },
+  "mysterious": {
+    "file": "mysterious.mp3",
+    "title": "mysterious?",
+    "artist": "haruta",
+    "license": "CC0",
+    "source": "https://opengameart.org/content/mysterious-1",
+    "url": "https://opengameart.org/sites/default/files/mysterious_3.mp3"
+  },
+  "adventure": {
+    "file": "adventure.mp3",
+    "title": "Treasure Hunter",
+    "artist": "TAD",
+    "license": "CC0",
+    "source": "https://opengameart.org/content/treasure-hunter",
+    "url": "https://opengameart.org/sites/default/files/treasure_hunter_0.mp3"
+  },
+  "romantic": {
+    "file": "romantic.mp3",
+    "title": "There is Romance",
+    "artist": "Kevin MacLeod",
+    "license": "CC-BY 4.0",
+    "source": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100044",
+    "url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/There%20is%20Romance.mp3"
+  },
+  "neutral": {
+    "file": "neutral.mp3",
+    "title": "The Field Of Dreams",
+    "artist": "pauliuw",
+    "license": "CC0",
+    "source": "https://opengameart.org/content/the-field-of-dreams",
+    "url": "https://opengameart.org/sites/default/files/the_field_of_dreams.mp3"
+  }
+}

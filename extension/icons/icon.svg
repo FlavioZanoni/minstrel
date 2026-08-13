@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Minstrel: music playing under the tale, drawn as a calligraphic swash -->
+  <rect width="128" height="128" rx="28" fill="#15141b"/>
+  <!-- two lines of the tale -->
+  <rect x="26" y="32" width="76" height="9" rx="4.5" fill="#ece7db" opacity=".92"/>
+  <rect x="26" y="54" width="54" height="9" rx="4.5" fill="#ece7db" opacity=".55"/>
+  <!-- the minstrel's flourish: a soundwave ending in a scribe's curl -->
+  <path d="M22 92 C 30 78 40 78 48 92 C 56 106 66 106 74 92 C 80 81 89 79 96 85 C 100 88 103 85 103 78"
+        fill="none" stroke="#c99a52" stroke-width="9" stroke-linecap="round"/>
+</svg>
