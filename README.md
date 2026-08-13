@@ -70,3 +70,7 @@ Everything lives in the settings (gear button on the widget, or right click the 
 ## Credits
 
 Music and icon attributions are in [CREDITS.md](CREDITS.md). Google Material Icons are used under Apache 2.0.
+
+## License
+
+[Apache-2.0](LICENSE)
