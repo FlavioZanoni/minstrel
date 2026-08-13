@@ -1,4 +1,8 @@
-# Minstrel
+<p align="center">
+  <img src="extension/icons/icon128.png" width="96" alt="Minstrel icon">
+</p>
+
+<h1 align="center">Minstrel</h1>
 
 A minstrel for your reading: background music that follows the story's mood as you read.
 
@@ -6,13 +10,18 @@ Minstrel is a Chrome extension for people who read in the browser (Royal Road, A
 
 ## Install (unpacked, for testing)
 
-1. Fetch the freely licensed tracks listed in `CREDITS.md` into `extension/music/`:
-   - Linux/macOS: `./download-music.sh` (needs `jq` and `curl`)
-   - Windows: `powershell -ExecutionPolicy Bypass -File download-music.ps1`
-2. Open `chrome://extensions`, enable **Developer mode**, click **Load unpacked**, and pick the `extension/` folder.
-3. Open something to read and click the Minstrel icon. Click it again to stop.
+1. Fetch the freely licensed tracks listed in `CREDITS.md` into `extension/music/`.
 
-To share with testers: run step 1, zip the `extension/` folder, send it.
+   Linux/macOS (needs `jq` and `curl`):
+   ```bash
+   ./download-music.sh
+   ```
+   Windows:
+   ```powershell
+   powershell -ExecutionPolicy Bypass -File download-music.ps1
+   ```
+2. Open Chrome, type `chrome://extensions` into the address bar (the same place you type a website) and press Enter. Turn on **Developer mode** with the switch in the top right corner, click **Load unpacked**, and pick the `extension/` folder.
+3. Open something to read and click the Minstrel icon. Click it again to stop.
 
 ## Using it
 
