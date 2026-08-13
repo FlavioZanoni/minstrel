@@ -1,3 +1,6 @@
 # downloaded audio stays out of the repo — see download-music.sh + CREDITS.md
 extension/music/*
 !extension/music/manifest.json
+
+# store package, built by package.sh
+minstrel.zip

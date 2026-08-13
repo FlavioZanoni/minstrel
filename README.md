@@ -55,7 +55,7 @@ The LLM answers with a mood (`battle, tension, calm, sad, mysterious, adventure,
 - `extension/background.js` is the service worker. It calls your configured LLM endpoint with a 10 second timeout and falls back to keyword scoring. `node extension/background.js` runs a self check of the fallback classifier.
 - `extension/music/manifest.json` maps each mood to a track. All music is CC0, CC-BY, or public domain; attributions live in `CREDITS.md`. Audio files are not committed, the download script fetches them.
 
-`host_permissions: <all_urls>` exists only so the service worker can call your LLM endpoint without CORS trouble.
+Minstrel requests no site access at install. When you save an LLM endpoint in the settings, it asks for permission to reach that one origin so the service worker can call it without CORS trouble. Privacy details are in [PRIVACY.md](PRIVACY.md).
 
 ## Configuration
 
