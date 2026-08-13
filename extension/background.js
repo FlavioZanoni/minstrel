@@ -86,6 +86,11 @@ async function classify(text) {
 }
 
 if (typeof chrome !== 'undefined' && chrome.action) {
+  // Web store users never see the repo README; open the bundled guide once.
+  chrome.runtime.onInstalled.addListener((details) => {
+    if (details.reason === 'install') chrome.tabs.create({ url: 'guide.html' });
+  });
+
   chrome.action.onClicked.addListener(async (tab) => {
     if (!tab.id) return;
     try {

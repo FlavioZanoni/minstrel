@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Getting started with Minstrel</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    :root {
+      --bg: #f6f2e8; --surface: #ffffff; --border: rgba(33, 31, 40, .12);
+      --text: #211f28; --text-dim: #6b6455; --accent: #a97a34;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #15141b; --surface: #1c1b24; --border: rgba(255, 255, 255, .09);
+        --text: #ece7da; --text-dim: #a39c8c; --accent: #d3a662;
+      }
+    }
+    body {
+      background: var(--bg); color: var(--text); margin: 0; padding: 40px 28px 60px;
+      font: 15px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    }
+    main { max-width: 640px; margin: 0 auto; }
+    h1 { font: 600 2rem/1.2 ui-serif, Georgia, "Times New Roman", serif; margin: 0 0 4px; }
+    .head-row { display: flex; align-items: center; justify-content: space-between; }
+    .head-row .gh { color: var(--text-dim); display: inline-flex; }
+    .head-row .gh:hover { color: var(--accent); }
+    .lede { color: var(--text-dim); margin: 0 0 32px; }
+    section {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+      padding: 22px 24px; margin-bottom: 20px;
+    }
+    h2 { font-size: 1.05rem; margin: 0 0 10px; }
+    h3 { font-size: .9rem; margin: 18px 0 6px; }
+    p, li { color: var(--text); }
+    .dim { color: var(--text-dim); font-size: 13px; }
+    code, pre {
+      font: 13px/1.5 ui-monospace, "Cascadia Code", Consolas, monospace;
+      background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
+    }
+    code { padding: 1px 6px; }
+    pre { padding: 10px 14px; overflow-x: auto; }
+    pre code { border: none; background: none; padding: 0; }
+    table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+    th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--border); }
+    th { color: var(--text-dim); font-weight: 600; }
+    .allow {
+      border-left: 3px solid var(--accent); padding: 10px 14px; border-radius: 0 8px 8px 0;
+      background: color-mix(in srgb, var(--accent) 8%, transparent); margin: 14px 0 0;
+    }
+    ol li, ul li { margin-bottom: 6px; }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="head-row">
+      <h1>Minstrel</h1>
+      <a class="gh" href="https://github.com/FlavioZanoni/minstrel" target="_blank" title="Minstrel on GitHub" aria-label="Minstrel on GitHub">
+        <svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+      </a>
+    </div>
+    <p class="lede">Background music that follows the story's mood as you read.</p>
+
+    <section>
+      <h2>Quick start</h2>
+      <ol>
+        <li>Open something to read: a webnovel chapter, fanfiction, any page with real text.</li>
+        <li>Click the Minstrel icon in the toolbar. A small widget appears at the bottom right.</li>
+        <li>Read. The music follows the mood of what is on your screen and crossfades when it changes.</li>
+      </ol>
+      <p class="dim">The widget has pause, a reading band calibrator, band guides, mute, volume, settings, and close. Click the band button and drag the band to where your eyes usually rest; Minstrel listens to the text inside it.</p>
+      <p class="dim">This works immediately with a built-in keyword classifier. For much smarter mood detection, set up an LLM below. It is free, local, and takes about five minutes.</p>
+    </section>
+
+    <section>
+      <h2>Smarter moods with a local LLM</h2>
+      <p>Minstrel can ask a small language model running on your own computer to judge each scene. We recommend <a href="https://ollama.com" target="_blank">Ollama</a>, a free app that runs models locally.</p>
+
+      <table>
+        <tr><th>Model</th><th>Disk</th><th>RAM</th><th>Verdict</th></tr>
+        <tr><td><code>llama3.2:3b</code></td><td>2.0 GB</td><td>~2 GB</td><td>Recommended default</td></tr>
+        <tr><td><code>qwen2.5:1.5b</code></td><td>986 MB</td><td>~1 GB</td><td>Smallest that still works well</td></tr>
+      </table>
+
+      <h3>Windows</h3>
+      <ol>
+        <li>Install Ollama from <a href="https://ollama.com/download" target="_blank">ollama.com/download</a>.</li>
+        <li>Open PowerShell and run:
+          <pre><code>setx OLLAMA_ORIGINS "chrome-extension://*"</code></pre>
+        </li>
+        <li>Quit Ollama from the system tray and start it again.</li>
+        <li>Still in PowerShell:
+          <pre><code>ollama pull llama3.2:3b</code></pre>
+        </li>
+      </ol>
+
+      <h3>Linux</h3>
+      <ol>
+        <li>Install Ollama:
+          <pre><code>curl -fsSL https://ollama.com/install.sh | sh</code></pre>
+        </li>
+        <li>Allow extension origins. If Ollama runs as a systemd service, run <code>sudo systemctl edit ollama</code> and add:
+          <pre><code>[Service]
+Environment="OLLAMA_ORIGINS=chrome-extension://*"</code></pre>
+          Then <code>sudo systemctl restart ollama</code>. If you run it manually instead: <code>OLLAMA_ORIGINS="chrome-extension://*" ollama serve</code>
+        </li>
+        <li><code>ollama pull llama3.2:3b</code></li>
+      </ol>
+
+      <h3>Connect Minstrel</h3>
+      <ol>
+        <li>Click the gear button on the widget to open the settings.</li>
+        <li>Set <strong>LLM endpoint</strong> to <code>http://localhost:11434/v1</code></li>
+        <li>Set <strong>Model</strong> to <code>llama3.2:3b</code> and leave the API key empty.</li>
+        <li>Click <strong>Save</strong>.</li>
+      </ol>
+      <div class="allow">
+        <strong>Chrome will ask for permission when you save.</strong> Minstrel needs your OK to talk to the endpoint address you just entered, and nothing else. If you deny it, the LLM cannot be reached and Minstrel quietly falls back to the keyword classifier.
+      </div>
+      <p class="dim">Tip: paste a one paragraph synopsis of your current book in the settings. The model uses it to match the music to the story's overall tone.</p>
+    </section>
+
+    <section>
+      <h2>Hosted APIs instead</h2>
+      <p>Any OpenAI compatible service works: set its endpoint (for example <code>https://openrouter.ai/api/v1</code>), your API key, and a model name. Minstrel sends roughly one small request per screenful of text, so the cost is negligible. The same permission prompt applies.</p>
+    </section>
+
+    <section>
+      <h2>Privacy</h2>
+      <p class="dim">Minstrel collects nothing and has no servers. By default nothing leaves your browser. With an LLM configured, the visible passage is sent only to the endpoint you chose. Details: <a href="https://github.com/FlavioZanoni/minstrel/blob/main/PRIVACY.md" target="_blank">privacy policy</a>.</p>
+    </section>
+  </main>
+</body>
+</html>
