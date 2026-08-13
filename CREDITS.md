@@ -1,6 +1,6 @@
 # Music Credits
 
-Background music tracks used by Book Song, one per mood. All tracks are
+Background music tracks used by Minstrel, one per mood. All tracks are
 freely licensed (CC0 or CC-BY) and were verified as directly downloadable
 before inclusion. See `extension/music/manifest.json` for machine-readable
 metadata and `download-music.sh` for the download script.

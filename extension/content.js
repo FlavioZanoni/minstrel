@@ -1,6 +1,6 @@
 (() => {
   // Second icon click on the same page = stop and tear down.
-  if (window.__bookSong) { window.__bookSong.destroy(); return; }
+  if (window.__minstrel) { window.__minstrel.destroy(); return; }
 
   const INFLIGHT_RETRY_MS = 1000;
   // User-tunable via the options page (stored under 'tuning'); these are the defaults.
@@ -149,7 +149,7 @@
 
 /* ---------- Reading-band hint lines (live toggle, not the calibration overlay) ----------
    Color + opacity are user-configurable in Options (defaults: #7aaaaa, 45%) — the content
-   script sets --bs-hint-color / --bs-hint-opacity on #book-song-hints from chrome.storage. */
+   script sets --bs-hint-color / --bs-hint-opacity on #minstrel-hints from chrome.storage. */
 .bs-hint {
   position: fixed;
   inset: 0;
@@ -333,10 +333,10 @@
   // Settings open in-page as a modal; the same options.html also serves the
   // regular extension options page (right-click the toolbar icon).
   function toggleSettingsModal() {
-    const open = document.getElementById('book-song-settings');
+    const open = document.getElementById('minstrel-settings');
     if (open) { open.remove(); return; }
     const m = document.createElement('div');
-    m.id = 'book-song-settings';
+    m.id = 'minstrel-settings';
     m.className = 'bs-modal';
     m.innerHTML =
       `<div class="bs-modal-scrim"></div>` +
@@ -412,11 +412,11 @@
 
   // --- band hint guides: faint lines marking the band edges while reading ---
   function updateHints() {
-    let h = document.getElementById('book-song-hints');
+    let h = document.getElementById('minstrel-hints');
     if (!state.hints || state.destroyed) { if (h) h.remove(); return; }
     if (!h) {
       h = document.createElement('div');
-      h.id = 'book-song-hints';
+      h.id = 'minstrel-hints';
       h.className = 'bs-hint';
       h.setAttribute('aria-hidden', 'true');
       h.innerHTML = '<div class="bs-hint-shade"></div><div class="bs-hint-shade"></div>' +
@@ -446,13 +446,13 @@
   function calibrateBand() {
     // Toggle: a second click on the band button closes the open overlay,
     // discarding any unsaved drag (same as Cancel).
-    const existing = document.getElementById('book-song-band');
+    const existing = document.getElementById('minstrel-band');
     if (existing) { existing.__bsClose(); return; }
     const vh = () => window.innerHeight;
     let center = state.band.center, height = state.band.height;
 
     const wrap = document.createElement('div');
-    wrap.id = 'book-song-band';
+    wrap.id = 'minstrel-band';
     wrap.className = 'bs-cal';
     wrap.innerHTML =
       `<div class="bs-cal-scrim" data-b="top" style="top:0;"></div>` +
@@ -693,9 +693,9 @@
 
   function destroy() {
     state.destroyed = true;
-    const cal = document.getElementById('book-song-band');
+    const cal = document.getElementById('minstrel-band');
     if (cal && cal.__bsClose) cal.__bsClose(); // an open calibration must not outlive the widget
-    const modal = document.getElementById('book-song-settings');
+    const modal = document.getElementById('minstrel-settings');
     if (modal) modal.remove();
     removeEventListener('scroll', onScroll, { capture: true });
     removeEventListener('resize', updateHints);
@@ -710,9 +710,9 @@
     if (state.audio) { state.audio.pause(); state.audio.src = ''; }
     ui.remove();
     styleEl.remove();
-    window.__bookSong = undefined;
+    window.__minstrel = undefined;
   }
-  window.__bookSong = { destroy };
+  window.__minstrel = { destroy };
 
   // --- boot ---
   Promise.all([
