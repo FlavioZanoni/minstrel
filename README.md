@@ -6,7 +6,9 @@ Minstrel is a Chrome extension for people who read in the browser (Royal Road, A
 
 ## Install (unpacked, for testing)
 
-1. `./download-music.sh` (needs `jq` and `curl`) to fetch the freely licensed tracks listed in `CREDITS.md` into `extension/music/`.
+1. Fetch the freely licensed tracks listed in `CREDITS.md` into `extension/music/`:
+   - Linux/macOS: `./download-music.sh` (needs `jq` and `curl`)
+   - Windows: `powershell -ExecutionPolicy Bypass -File download-music.ps1`
 2. Open `chrome://extensions`, enable **Developer mode**, click **Load unpacked**, and pick the `extension/` folder.
 3. Open something to read and click the Minstrel icon. Click it again to stop.
 
@@ -29,7 +31,7 @@ Music fades out when you switch tabs and fades back in when you return. This can
 
 Out of the box Minstrel uses a simple keyword classifier: zero setup, works offline, decent on action scenes.
 
-For much better results, point it at any OpenAI compatible LLM in the settings:
+For much better results, point it at any OpenAI compatible LLM in the settings. **[LLM-SETUP.md](LLM-SETUP.md) has the full walkthrough for Windows and Linux**, including which small models work best. The short version:
 
 - **Local Ollama**: endpoint `http://localhost:11434/v1`, model such as `llama3.2` (a 3B model is plenty). Ollama must allow extension origins: `OLLAMA_ORIGINS="chrome-extension://*" ollama serve`
 - **Hosted APIs** (OpenRouter, OpenAI, and friends): endpoint, API key, model. It sends roughly one tiny request per screenful of text, so cost is negligible.
