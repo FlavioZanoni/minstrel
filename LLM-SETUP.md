@@ -6,12 +6,12 @@ Minstrel works without an LLM (keyword fallback), but a small local model makes 
 
 The task is tiny: classify one screenful of text into 8 moods plus a transition word. You do not need a big model.
 
-| Model | Size (RAM) | Verdict |
-|---|---|---|
-| `llama3.2:3b` | ~2 GB | Recommended default. Reliable moods, follows the two word format. |
-| `qwen2.5:3b` | ~2 GB | Equally good alternative. |
-| `qwen2.5:1.5b` | ~1 GB | The smallest that still works well. Occasional format slips, which Minstrel handles by falling back to keywords for that check. |
-| `llama3.2:1b` | ~0.8 GB | Works most of the time, noticeably wobblier on subtle moods (mysterious vs tension). Fine on a weak machine. |
+| Model | Disk | RAM | Verdict |
+|---|---|---|---|
+| `llama3.2:3b` | 2.0 GB | ~2 GB | Recommended default. Reliable moods, follows the two word format. |
+| `qwen2.5:3b` | 1.9 GB | ~2 GB | Equally good alternative. |
+| `qwen2.5:1.5b` | 986 MB | ~1 GB | The smallest that still works well. Occasional format slips, which Minstrel handles by falling back to keywords for that check. |
+| `llama3.2:1b` | 1.3 GB | ~0.8 GB | Works most of the time, noticeably wobblier on subtle moods (mysterious vs tension). Fine on a weak machine. |
 
 Anything 3B-class runs fast even on CPU. Below 1B is not worth it: the keyword fallback is comparable at that point.
 
