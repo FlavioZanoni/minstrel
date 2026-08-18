@@ -71,18 +71,22 @@ async function llmClassify(cfg, text) {
 
 async function classify(text) {
   const cfg = await chrome.storage.sync.get(['endpoint', 'apiKey', 'model', 'synopsis']);
+  // Falling back to keywords is fine, doing it silently is not — the reader
+  // has no other way to learn their endpoint is down or misconfigured.
+  let llmError = null;
   if (cfg.endpoint) {
     try {
       const r = await llmClassify(cfg, text);
       if (MOODS.includes(r.mood)) return { mood: r.mood, transition: r.transition, via: 'llm' };
+      llmError = 'unexpected reply: ' + (r.mood || '(empty)');
     } catch (e) {
-      // fall through to keywords
+      llmError = e.name === 'TimeoutError' ? 'no answer in 10s' : e.message;
     }
   }
   const mood = keywordClassify(text);
   // ponytail: keywords can't judge suddenness; danger moods cut in, the rest blend
   const transition = mood === 'battle' || mood === 'tension' ? 'sharp' : 'smooth';
-  return { mood, transition, via: 'keywords' };
+  return { mood, transition, via: 'keywords', llmError };
 }
 
 if (typeof chrome !== 'undefined' && chrome.action) {
@@ -121,4 +125,14 @@ if (typeof chrome !== 'undefined' && chrome.action) {
   t('The warm fire crackled and the warm bread steamed.', 'calm'); // 'war' must not match inside 'warm'
   t('He charged and swords clashed as men were killed.', 'battle'); // inflected forms must still match
   console.log('keyword classifier self-check ok');
+
+  // A dead endpoint must fall back AND say why — silent fallback is the bug.
+  globalThis.chrome = { storage: { sync: { get: async () => ({ endpoint: 'http://127.0.0.1:1/v1' }) } } };
+  globalThis.fetch = async () => { throw new TypeError('fetch failed'); };
+  classify('He said hello and ordered a sandwich.').then((r) => {
+    if (r.via !== 'keywords' || r.llmError !== 'fetch failed') {
+      throw new Error('llm failure not reported: ' + JSON.stringify(r));
+    }
+    console.log('llm-failure reporting self-check ok');
+  });
 }

@@ -45,6 +45,8 @@ For much better results, point it at any OpenAI compatible LLM in the settings. 
 - **Local Ollama**: endpoint `http://localhost:11434/v1`, model such as `llama3.2` (a 3B model is plenty). Ollama must allow extension origins: `OLLAMA_ORIGINS="chrome-extension://*" ollama serve`
 - **Hosted APIs** (OpenRouter, OpenAI, and friends): endpoint, API key, model. It sends roughly one tiny request per screenful of text, so cost is negligible.
 
+Hit **Test connection** in the settings to check the endpoint before you rely on it: it says whether the server answers and whether it actually has the model you named. Pressing it with the field empty probes Ollama's usual `http://localhost:11434/v1` and fills it in if anything answers there. If the LLM stops answering while you read, the widget's mood label picks up a ⚠ and its tooltip says why; the music keeps going on the keyword fallback.
+
 Optionally paste a one paragraph synopsis of your current book in the settings. It is included in the prompt so the mood matches the story's overall tone.
 
 The LLM answers with a mood (`battle, tension, calm, sad, mysterious, adventure, romantic, neutral`) and a transition: `smooth` for a gentle blend, `sharp` for a fast cut-in on sudden scene shifts like an ambush.
@@ -52,7 +54,7 @@ The LLM answers with a mood (`battle, tension, calm, sad, mysterious, adventure,
 ## How it works
 
 - `extension/content.js` is injected on icon click. It collects the paragraphs currently in your reading band (debounced on scroll, with a cooldown between checks), asks the background worker for a mood, and crossfades looped tracks with an equal power curve.
-- `extension/background.js` is the service worker. It calls your configured LLM endpoint with a 10 second timeout and falls back to keyword scoring. `node extension/background.js` runs a self check of the fallback classifier.
+- `extension/background.js` is the service worker. It calls your configured LLM endpoint with a 10 second timeout and falls back to keyword scoring, reporting why it fell back. `node extension/background.js` runs a self check of the fallback classifier; `node extension/options.js` checks the settings page's endpoint test.
 - `extension/music/manifest.json` maps each mood to a track. All music is CC0, CC-BY, or public domain; attributions live in `CREDITS.md`. Audio files are not committed, the download script fetches them.
 
 Minstrel requests no site access at install. When you save an LLM endpoint in the settings, it asks for permission to reach that one origin so the service worker can call it without CORS trouble. Privacy details are in [PRIVACY.md](PRIVACY.md).

@@ -213,6 +213,10 @@
     .bs-opt-save:hover { filter: brightness(1.07); }
     .bs-opt-save:focus-visible { outline: 2px solid var(--bs-opt-accent); outline-offset: 2px; }
     .bs-opt-status { font-size: 13px; }
+    .bs-opt-secondary { background: transparent; color: var(--bs-opt-accent); box-shadow: inset 0 0 0 1px var(--bs-opt-accent); }
+    /* the status can be a full sentence — let it wrap under the button */
+    .bs-opt-test-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
+    .bs-opt-test-row .bs-opt-status { flex: 1; min-width: 200px; }
     /* dead center of the row, independent of the save button's width */
     .bs-opt-license { position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); margin: 0; font-size: 12px; color: var(--bs-opt-text-dim); }
     .bs-opt-license a { color: inherit; }
@@ -239,7 +243,7 @@
         <input id="endpoint" type="text" placeholder="http://localhost:11434/v1">
         <p class="bs-opt-hint">OpenAI-compatible base URL. Leave empty to use the keyword fallback.
           First time? <a href="guide.html" target="_blank">Read the setup guide</a>.</p>
-        <p class="bs-opt-hint">When you save, Chrome asks for permission to reach this address. Allow it, or Minstrel cannot use the LLM.</p>
+        <p class="bs-opt-hint">When you save or test, Chrome asks for permission to reach this address. Allow it, or Minstrel cannot use the LLM.</p>
       </div>
       <div class="bs-opt-field">
         <label for="apiKey">API key</label>
@@ -248,6 +252,10 @@
       <div class="bs-opt-field">
         <label for="model">Model</label>
         <input id="model" type="text" placeholder="llama3.2">
+      </div>
+      <div class="bs-opt-test-row">
+        <button id="test" class="bs-opt-save bs-opt-secondary" type="button">Test connection</button>
+        <span id="testStatus" class="bs-opt-status"></span>
       </div>
       <div class="bs-opt-field">
         <label for="synopsis">Current book synopsis <span class="bs-opt-optional">optional</span></label>

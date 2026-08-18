@@ -23,6 +23,8 @@
     paused: false,
     autoPaused: false, // page lost focus; distinct from the user's manual pause
     mood: null,
+    llmError: null, // last classify's LLM failure reason, shown as ⚠ on the label
+    credit: '',     // current track's attribution, kept so the ⚠ tooltip can replace it
     pendingMood: null, // {mood, transition} blocked on autoplay, retried on widget click
     muted: false,
     audio: null,
@@ -377,7 +379,17 @@
     }
   });
 
-  function setLabel(text) { el('moodtext').textContent = text || '…'; }
+  // The ⚠ is the only signal that the configured LLM isn't answering — music
+  // keeps playing off keywords, so nothing else would look wrong.
+  function setLabel(text) {
+    el('moodtext').textContent = (text || '…') + (state.llmError ? ' ⚠' : '');
+  }
+  function setMoodTitle(credit) {
+    state.credit = credit !== undefined ? credit : state.credit;
+    el('mood').title = state.llmError
+      ? 'LLM unreachable (' + state.llmError + ') — using keyword fallback. Check the endpoint in settings.'
+      : (state.credit || '');
+  }
 
   // --- reading position: paragraphs in the user's reading band, then the rest ---
   function visibleText() {
@@ -571,7 +583,7 @@
       state.mood = mood;
       state.needsGesture = false;
       setLabel(mood);
-      el('mood').title = `${entry.title} by ${entry.artist} (${entry.license})`;
+      setMoodTitle(`${entry.title} by ${entry.artist} (${entry.license})`);
       setWidgetState(state.paused ? 'paused' : (state.autoPaused ? 'auto-paused' : 'default'));
       crossfadeTo(next, transition);
     }).catch((err) => {
@@ -616,7 +628,12 @@
         if (state.paused) return; // don't commit either — unpause must re-classify this text
         state.lastClassified = Date.now();
         state.lastText = text;
+        state.llmError = res.llmError || null;
         playMood(res.mood, res.transition);
+        // playMood only relabels when the mood actually changes; the warning
+        // has to appear (and clear) even when it keeps picking 'neutral'.
+        if (state.mood) setLabel(state.mood);
+        setMoodTitle();
       });
     } catch (e) {
       // Extension was reloaded/removed under us — this instance is orphaned
